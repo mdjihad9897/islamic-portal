@@ -224,53 +224,34 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
- <h2 style="text-align:center;color:#2c3e50;">সর্বশেষ নিউজ</h2>
+<h2>নতুন পোস্ট</h2>
+<div id="posts"></div>
 
-<div id="blogger-news" style="max-width:800px;margin:20px auto;">
-  <p style="text-align:center;">নিউজ লোড হচ্ছে...</p>
-</div>
-
-<!-- Google Feed API -->
-<script src="https://www.google.com/jsapi"></script>
 <script>
-google.load("feeds", "1");
+fetch("https://api.allorigins.win/get?url=" +
+encodeURIComponent("https://islamic-portal9898.blogspot.com/feeds/posts/default?alt=json"))
+.then(response => response.json())
+.then(data => {
+  const feed = JSON.parse(data.contents);
+  let html = "";
+  feed.feed.entry.slice(0,5).forEach(post => {
+    const title = post.title.$t;
+    const link = post.link.find(l => l.rel === "alternate").href;
+    const content = post.content.$t.substring(0,150);
 
-function initialize() {
-  var feed = new google.feeds.Feed("https://islamic-portal9898.blogspot.com/feeds/posts/default");
-  feed.setNumEntries(5); // Latest ৫টি পোস্ট
-  feed.load(function(result) {
-    if (!result.error) {
-      var html = "";
-      for (var i = 0; i < result.feed.entries.length; i++) {
-        var entry = result.feed.entries[i];
-
-        // Card container
-        html += '<div style="border:1px solid #ddd;padding:15px;margin-bottom:15px;border-radius:8px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.1);">';
-
-        // Featured image (যদি থাকে)
-        if (entry.mediaGroups && entry.mediaGroups[0] && entry.mediaGroups[0].contents.length > 0) {
-          html += '<img src="' + entry.mediaGroups[0].contents[0].url + '" alt="' + entry.title + '" style="max-width:100%;border-radius:8px;margin-bottom:10px;">';
-        }
-
-        // Title
-        html += '<h3 style="margin:0 0 10px 0;font-size:18px;"><a href="' + entry.link + '" target="_blank" style="text-decoration:none;color:#2c3e50;">' + entry.title + '</a></h3>';
-
-        // Published Date
-        var pubDate = new Date(entry.publishedDate).toLocaleDateString('bn-BD', {day:'numeric',month:'long',year:'numeric'});
-        html += '<p style="font-size:14px;color:#7f8c8d;margin-bottom:10px;">' + pubDate + '</p>';
-
-        html += '</div>';
-      }
-      document.getElementById("blogger-news").innerHTML = html;
-    } else {
-      document.getElementById("blogger-news").innerHTML = "<p style='text-align:center;'>নিউজ লোড হচ্ছে না।</p>";
-    }
+    html += `
+      <div style="border:1px solid #ddd;padding:10px;margin-bottom:10px">
+        <h3>${title}</h3>
+        <p>${content}...</p>
+        <a href="${link}" target="_blank">সম্পূর্ণ পড়ুন</a>
+      </div>
+    `;
   });
-}
-
-google.setOnLoadCallback(initialize);
+  document.getElementById("posts").innerHTML = html;
+});
 </script>
 
+ 
 <main class="container">
  <article class="card">
   <img src="https://via.placeholder.com/1200x675">
@@ -328,3 +309,4 @@ function voiceSearch(){
 
 </body>
 </html>
+
