@@ -187,65 +187,98 @@ footer p,footer a{font-size:14px;line-height:1.7}
 </style>
 
 <style>
+:root{
+  --bg:#0b1220;
+  --card:#0f172a;
+  --accent:#22c55e;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+}
+
+body{
+  background:var(--bg);
+}
+
 .islamic-container{
   max-width:900px;
-  margin:40px auto;
+  margin:60px auto;
   padding:20px;
 }
 
 .islamic-post{
-  background:#ffffff;
-  margin-bottom:30px;
-  border-radius:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  background:linear-gradient(180deg,#0f172a,#020617);
+  border-radius:16px;
+  margin-bottom:40px;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
   overflow:hidden;
+  border:1px solid rgba(255,255,255,.05);
+  transition:.4s ease;
+}
+
+.islamic-post:hover{
+  transform:translateY(-6px);
+  box-shadow:0 30px 60px rgba(0,0,0,.8);
 }
 
 .islamic-header{
-  background:linear-gradient(135deg,#0f766e,#16a34a);
-  padding:20px;
-  color:#fff;
+  padding:28px;
   text-align:center;
+  background:
+    radial-gradient(circle at top,#22c55e33,transparent 60%);
 }
 
 .islamic-header h2{
   margin:0;
-  font-size:26px;
+  font-size:28px;
+  color:#f8fafc;
+  letter-spacing:.3px;
 }
 
 .islamic-body{
-  padding:25px;
-  line-height:1.9;
+  padding:30px;
+  color:var(--text);
   font-size:17px;
-  color:#333;
+  line-height:2;
+}
+
+.islamic-body p{
+  margin-bottom:18px;
 }
 
 .islamic-body img{
   max-width:100%;
-  border-radius:8px;
-  margin:15px 0;
+  border-radius:12px;
+  margin:20px 0;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
 }
 
 .islamic-footer{
+  padding:20px;
   text-align:center;
-  padding:15px;
-  background:#f9fafb;
+  background:rgba(255,255,255,.02);
 }
 
 .islamic-footer a{
-  background:#16a34a;
-  color:#fff;
-  padding:10px 22px;
-  border-radius:25px;
+  display:inline-block;
+  padding:12px 30px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#022c22;
+  font-weight:700;
   text-decoration:none;
-  font-weight:bold;
+  transition:.3s;
+}
+
+.islamic-footer a:hover{
+  transform:scale(1.05);
 }
 
 @media(max-width:600px){
-  .islamic-header h2{font-size:20px;}
+  .islamic-header h2{font-size:22px;}
   .islamic-body{font-size:16px;}
 }
 </style>
+
  
 </head>
 
@@ -286,8 +319,8 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
-<div class="islamic-container" id="islamicPosts">
-  লোড হচ্ছে...
+ <div class="islamic-container" id="islamicPosts">
+  <p style="text-align:center;color:#94a3b8">পোস্ট লোড হচ্ছে...</p>
 </div>
 
 <script>
@@ -296,29 +329,29 @@ encodeURIComponent("https://islamic-portal9898.blogspot.com/feeds/posts/default?
 .then(res => res.json())
 .then(data => {
   const feed = JSON.parse(data.contents);
-  let output = "";
+  let html = "";
 
   feed.feed.entry.forEach(post => {
-    const title = post.title.$t;
-    const content = post.content.$t;
-    const link = post.link.find(l=>l.rel==="alternate").href;
-
-    output += `
-      <div class="islamic-post">
+    html += `
+      <article class="islamic-post">
         <div class="islamic-header">
-          <h2>${title}</h2>
+          <h2>${post.title.$t}</h2>
         </div>
+
         <div class="islamic-body">
-          ${content}
+          ${post.content.$t}
         </div>
+
         <div class="islamic-footer">
-          <a href="${link}" target="_blank">Blogger-এ দেখুন</a>
+          <a href="${post.link.find(l=>l.rel==='alternate').href}" target="_blank">
+            মূল পোস্ট দেখুন
+          </a>
         </div>
-      </div>
+      </article>
     `;
   });
 
-  document.getElementById("islamicPosts").innerHTML = output;
+  document.getElementById("islamicPosts").innerHTML = html;
 });
 </script>
 
@@ -369,6 +402,7 @@ function voiceSearch(){
 
 </body>
 </html>
+
 
 
 
