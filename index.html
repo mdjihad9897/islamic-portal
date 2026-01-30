@@ -185,6 +185,68 @@ footer p,footer a{font-size:14px;line-height:1.7}
  .title{font-size:20px}
 }
 </style>
+
+<style>
+.islamic-container{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.islamic-post{
+  background:#ffffff;
+  margin-bottom:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+
+.islamic-header{
+  background:linear-gradient(135deg,#0f766e,#16a34a);
+  padding:20px;
+  color:#fff;
+  text-align:center;
+}
+
+.islamic-header h2{
+  margin:0;
+  font-size:26px;
+}
+
+.islamic-body{
+  padding:25px;
+  line-height:1.9;
+  font-size:17px;
+  color:#333;
+}
+
+.islamic-body img{
+  max-width:100%;
+  border-radius:8px;
+  margin:15px 0;
+}
+
+.islamic-footer{
+  text-align:center;
+  padding:15px;
+  background:#f9fafb;
+}
+
+.islamic-footer a{
+  background:#16a34a;
+  color:#fff;
+  padding:10px 22px;
+  border-radius:25px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+@media(max-width:600px){
+  .islamic-header h2{font-size:20px;}
+  .islamic-body{font-size:16px;}
+}
+</style>
+ 
 </head>
 
 <body>
@@ -224,33 +286,41 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
-<h2>নতুন পোস্ট</h2>
-<div id="posts"></div>
+<div class="islamic-container" id="islamicPosts">
+  লোড হচ্ছে...
+</div>
 
 <script>
 fetch("https://api.allorigins.win/get?url=" +
 encodeURIComponent("https://islamic-portal9898.blogspot.com/feeds/posts/default?alt=json"))
-.then(response => response.json())
+.then(res => res.json())
 .then(data => {
   const feed = JSON.parse(data.contents);
-  let html = "";
-  feed.feed.entry.slice(0,5).forEach(post => {
-    const title = post.title.$t;
-    const link = post.link.find(l => l.rel === "alternate").href;
-    const content = post.content.$t.substring(0,150);
+  let output = "";
 
-    html += `
-      <div style="border:1px solid #ddd;padding:10px;margin-bottom:10px">
-        <h3>${title}</h3>
-        <p>${content}...</p>
-        <a href="${link}" target="_blank">সম্পূর্ণ পড়ুন</a>
+  feed.feed.entry.forEach(post => {
+    const title = post.title.$t;
+    const content = post.content.$t;
+    const link = post.link.find(l=>l.rel==="alternate").href;
+
+    output += `
+      <div class="islamic-post">
+        <div class="islamic-header">
+          <h2>${title}</h2>
+        </div>
+        <div class="islamic-body">
+          ${content}
+        </div>
+        <div class="islamic-footer">
+          <a href="${link}" target="_blank">Blogger-এ দেখুন</a>
+        </div>
       </div>
     `;
   });
-  document.getElementById("posts").innerHTML = html;
+
+  document.getElementById("islamicPosts").innerHTML = output;
 });
 </script>
-
 
 <footer>
  <div class="footer-grid">
@@ -299,5 +369,6 @@ function voiceSearch(){
 
 </body>
 </html>
+
 
 
