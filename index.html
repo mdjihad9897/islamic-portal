@@ -186,65 +186,6 @@ footer p,footer a{font-size:14px;line-height:1.7}
 }
 </style>
 
-<style>
-.simple-container{
-  max-width:850px;
-  margin:40px auto;
-  padding:15px;
-}
-
-.simple-post{
-  background:#ffffff;
-  border-radius:10px;
-  margin-bottom:30px;
-  box-shadow:0 5px 15px rgba(0,0,0,.08);
-  border:1px solid #e5e7eb;
-}
-
-.simple-header{
-  padding:18px 22px;
-  border-bottom:1px solid #e5e7eb;
-}
-
-.simple-header h2{
-  margin:0;
-  font-size:24px;
-  color:#111827;
-}
-
-.simple-body{
-  padding:20px 22px;
-  font-size:16.5px;
-  line-height:1.9;
-  color:#374151;
-}
-
-.simple-body img{
-  max-width:100%;
-  border-radius:6px;
-  margin:12px 0;
-}
-
-.read-more{
-  display:block;
-  text-align:center;
-  padding:14px;
-  background:#f9fafb;
-  border-top:1px solid #e5e7eb;
-  cursor:pointer;
-  color:#2563eb;
-  font-weight:600;
-}
-
-.read-more:hover{
-  background:#eef2ff;
-}
-
-.hidden-content{
-  display:none;
-}
-</style>
- 
 </head>
 
 <body>
@@ -284,53 +225,22 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
-<div class="simple-container" id="blogPosts">
-  পোস্ট লোড হচ্ছে...
+<div class="content-page">
+  <h1>এখানে শিরোনাম</h1>
+  <p>এখানে তোমার লেখা শুরু করো।</p>
+  <p>যত খুশি লেখা, ছবি, লিস্ট—সব যোগ করা যাবে।</p>
+</div>
+<div class="content-page">
+  <h1>এখানে শিরোনাম</h1>
+  <p>এখানে তোমার লেখা শুরু করো।</p>
+  <p>যত খুশি লেখা, ছবি, লিস্ট—সব যোগ করা যাবে।</p>
+</div>
+<div class="content-page">
+  <h1>এখানে শিরোনাম</h1>
+  <p>এখানে তোমার লেখা শুরু করো।</p>
+  <p>যত খুশি লেখা, ছবি, লিস্ট—সব যোগ করা যাবে।</p>
 </div>
 
-<script>
-fetch("https://api.allorigins.win/get?url=" +
-encodeURIComponent("https://islamic-portal9898.blogspot.com/feeds/posts/default?alt=json"))
-.then(res => res.json())
-.then(data => {
-  const feed = JSON.parse(data.contents);
-  let html = "";
-
-  feed.feed.entry.forEach((post, index) => {
-    const fullContent = post.content.$t;
-    const shortContent = fullContent.substring(0, 400);
-
-    html += `
-      <article class="simple-post">
-        <div class="simple-header">
-          <h2>${post.title.$t}</h2>
-        </div>
-
-        <div class="simple-body">
-          ${shortContent}...
-          <div class="hidden-content" id="full-${index}">
-            ${fullContent}
-          </div>
-        </div>
-
-        <div class="read-more" onclick="togglePost(${index})">
-          আরও পড়ুন
-        </div>
-      </article>
-    `;
-  });
-
-  document.getElementById("blogPosts").innerHTML = html;
-});
-
-function togglePost(id){
-  const el = document.getElementById("full-"+id);
-  if(el.style.display === "block"){
-    el.style.display = "none";
-  }else{
-    el.style.display = "block";
-  }
-}
 </script>
 
 <footer>
@@ -380,6 +290,7 @@ function voiceSearch(){
 
 </body>
 </html>
+
 
 
 
