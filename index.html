@@ -187,98 +187,63 @@ footer p,footer a{font-size:14px;line-height:1.7}
 </style>
 
 <style>
-:root{
-  --bg:#0b1220;
-  --card:#0f172a;
-  --accent:#22c55e;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
+.simple-container{
+  max-width:850px;
+  margin:40px auto;
+  padding:15px;
 }
 
-body{
-  background:var(--bg);
+.simple-post{
+  background:#ffffff;
+  border-radius:10px;
+  margin-bottom:30px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  border:1px solid #e5e7eb;
 }
 
-.islamic-container{
-  max-width:900px;
-  margin:60px auto;
-  padding:20px;
+.simple-header{
+  padding:18px 22px;
+  border-bottom:1px solid #e5e7eb;
 }
 
-.islamic-post{
-  background:linear-gradient(180deg,#0f172a,#020617);
-  border-radius:16px;
-  margin-bottom:40px;
-  box-shadow:0 20px 40px rgba(0,0,0,.6);
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.05);
-  transition:.4s ease;
-}
-
-.islamic-post:hover{
-  transform:translateY(-6px);
-  box-shadow:0 30px 60px rgba(0,0,0,.8);
-}
-
-.islamic-header{
-  padding:28px;
-  text-align:center;
-  background:
-    radial-gradient(circle at top,#22c55e33,transparent 60%);
-}
-
-.islamic-header h2{
+.simple-header h2{
   margin:0;
-  font-size:28px;
-  color:#f8fafc;
-  letter-spacing:.3px;
+  font-size:24px;
+  color:#111827;
 }
 
-.islamic-body{
-  padding:30px;
-  color:var(--text);
-  font-size:17px;
-  line-height:2;
+.simple-body{
+  padding:20px 22px;
+  font-size:16.5px;
+  line-height:1.9;
+  color:#374151;
 }
 
-.islamic-body p{
-  margin-bottom:18px;
-}
-
-.islamic-body img{
+.simple-body img{
   max-width:100%;
-  border-radius:12px;
-  margin:20px 0;
-  box-shadow:0 10px 30px rgba(0,0,0,.6);
+  border-radius:6px;
+  margin:12px 0;
 }
 
-.islamic-footer{
-  padding:20px;
+.read-more{
+  display:block;
   text-align:center;
-  background:rgba(255,255,255,.02);
+  padding:14px;
+  background:#f9fafb;
+  border-top:1px solid #e5e7eb;
+  cursor:pointer;
+  color:#2563eb;
+  font-weight:600;
 }
 
-.islamic-footer a{
-  display:inline-block;
-  padding:12px 30px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#022c22;
-  font-weight:700;
-  text-decoration:none;
-  transition:.3s;
+.read-more:hover{
+  background:#eef2ff;
 }
 
-.islamic-footer a:hover{
-  transform:scale(1.05);
-}
-
-@media(max-width:600px){
-  .islamic-header h2{font-size:22px;}
-  .islamic-body{font-size:16px;}
+.hidden-content{
+  display:none;
 }
 </style>
-
  
 </head>
 
@@ -319,8 +284,8 @@ body{
  </div>
 </div>
 
- <div class="islamic-container" id="islamicPosts">
-  <p style="text-align:center;color:#94a3b8">পোস্ট লোড হচ্ছে...</p>
+<div class="simple-container" id="blogPosts">
+  পোস্ট লোড হচ্ছে...
 </div>
 
 <script>
@@ -331,28 +296,41 @@ encodeURIComponent("https://islamic-portal9898.blogspot.com/feeds/posts/default?
   const feed = JSON.parse(data.contents);
   let html = "";
 
-  feed.feed.entry.forEach(post => {
+  feed.feed.entry.forEach((post, index) => {
+    const fullContent = post.content.$t;
+    const shortContent = fullContent.substring(0, 400);
+
     html += `
-      <article class="islamic-post">
-        <div class="islamic-header">
+      <article class="simple-post">
+        <div class="simple-header">
           <h2>${post.title.$t}</h2>
         </div>
 
-        <div class="islamic-body">
-          ${post.content.$t}
+        <div class="simple-body">
+          ${shortContent}...
+          <div class="hidden-content" id="full-${index}">
+            ${fullContent}
+          </div>
         </div>
 
-        <div class="islamic-footer">
-          <a href="${post.link.find(l=>l.rel==='alternate').href}" target="_blank">
-            মূল পোস্ট দেখুন
-          </a>
+        <div class="read-more" onclick="togglePost(${index})">
+          আরও পড়ুন
         </div>
       </article>
     `;
   });
 
-  document.getElementById("islamicPosts").innerHTML = html;
+  document.getElementById("blogPosts").innerHTML = html;
 });
+
+function togglePost(id){
+  const el = document.getElementById("full-"+id);
+  if(el.style.display === "block"){
+    el.style.display = "none";
+  }else{
+    el.style.display = "block";
+  }
+}
 </script>
 
 <footer>
@@ -402,6 +380,7 @@ function voiceSearch(){
 
 </body>
 </html>
+
 
 
 
