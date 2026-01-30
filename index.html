@@ -224,15 +224,44 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
-<main class="container">
- <article class="card">
-  <img src="https://via.placeholder.com/1200x675">
-  <div class="card-body">
-   <div class="cat">জাতীয়</div>
-   <div class="title">দেশের রাজনৈতিক পরিস্থিতি নিয়ে গুরুত্বপূর্ণ আলোচনা</div>
-  </div>
- </article>
-</main>
+<h2 style="text-align:center;color:#2c3e50;">সর্বশেষ নিউজ</h2>
+
+<div id="blogger-news" style="max-width:800px;margin:20px auto;">
+  <p style="text-align:center;">নিউজ লোড হচ্ছে...</p>
+</div>
+
+<script>
+fetch("https://islamic-portal9898.blogspot.com/feeds/posts/default?alt=json")
+.then(res => res.json())
+.then(data => {
+  let posts = data.feed.entry;
+  let html = "";
+  posts.slice(0,5).forEach(post => {
+    let title = post.title.$t;
+    let link = post.link.find(l => l.rel === "alternate").href;
+    let date = new Date(post.published.$t).toLocaleDateString('bn-BD', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    let image = "";
+    if (post.media$thumbnail) {
+      image = `<img src="${post.media$thumbnail.url}" alt="${title}" style="max-width:100%;border-radius:8px;margin-bottom:10px;">`;
+    }
+
+    html += `
+      <div style="border:1px solid #ddd;padding:15px;margin-bottom:15px;border-radius:8px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+        ${image}
+        <h3 style="margin:0 0 10px 0;font-size:18px;"><a href="${link}" target="_blank" style="text-decoration:none;color:#2c3e50;">${title}</a></h3>
+        <p style="font-size:14px;color:#7f8c8d;margin-bottom:10px;">${date}</p>
+      </div>
+    `;
+  });
+  document.getElementById("blogger-news").innerHTML = html;
+})
+.catch(err => {
+  document.getElementById("blogger-news").innerHTML = "<p style='text-align:center;'>নিউজ লোড হচ্ছে না।</p>";
+});
+</script>
 
 <main class="container">
  <article class="card">
@@ -291,3 +320,4 @@ function voiceSearch(){
 
 </body>
 </html>
+
