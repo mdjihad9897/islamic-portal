@@ -224,19 +224,20 @@ footer p,footer a{font-size:14px;line-height:1.7}
  </div>
 </div>
 
-<h2 style="text-align:center;color:#2c3e50;">সর্বশেষ নিউজ</h2>
+ <h2 style="text-align:center;color:#2c3e50;">সর্বশেষ নিউজ</h2>
 
 <div id="blogger-news" style="max-width:800px;margin:20px auto;">
   <p style="text-align:center;">নিউজ লোড হচ্ছে...</p>
 </div>
 
+<!-- Google Feed API -->
 <script src="https://www.google.com/jsapi"></script>
 <script>
 google.load("feeds", "1");
 
 function initialize() {
   var feed = new google.feeds.Feed("https://islamic-portal9898.blogspot.com/feeds/posts/default");
-  feed.setNumEntries(5); // Latest 5 posts
+  feed.setNumEntries(5); // Latest ৫টি পোস্ট
   feed.load(function(result) {
     if (!result.error) {
       var html = "";
@@ -327,7 +328,3 @@ function voiceSearch(){
 
 </body>
 </html>
-
-
-
-
