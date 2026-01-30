@@ -230,14 +230,13 @@ footer p,footer a{font-size:14px;line-height:1.7}
   <p style="text-align:center;">নিউজ লোড হচ্ছে...</p>
 </div>
 
-<!-- Google Feed API ব্যবহার করে CORS-free fetch -->
 <script src="https://www.google.com/jsapi"></script>
 <script>
 google.load("feeds", "1");
 
 function initialize() {
   var feed = new google.feeds.Feed("https://islamic-portal9898.blogspot.com/feeds/posts/default");
-  feed.setNumEntries(5);
+  feed.setNumEntries(5); // Latest 5 posts
   feed.load(function(result) {
     if (!result.error) {
       var html = "";
@@ -270,6 +269,8 @@ function initialize() {
 
 google.setOnLoadCallback(initialize);
 </script>
+
+       
 
 
 <main class="container">
@@ -329,5 +330,6 @@ function voiceSearch(){
 
 </body>
 </html>
+
 
 
